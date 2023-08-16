@@ -1,5 +1,3 @@
-
-
 function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
     const canvas = document.getElementById(canvas_id);
     const context = canvas.getContext('2d');
