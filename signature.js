@@ -4,6 +4,7 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
     var isDrawing = false;
     var signature = document.getElementsByName(signature_id)[0];
     let isErasing = false;
+    
     function startDrawing(e) {
         isDrawing = true;
         const pos = getMousePos(canvas, e);
@@ -29,6 +30,7 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
 
     function clearCanvas() {
         context.clearRect(0, 0, canvas.width, canvas.height);
+        signature.value = '';
     }
 
     function getMousePos(canvas, e) {
@@ -69,5 +71,3 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
     const eraserButton = document.getElementById(eraser_id);
     eraserButton.addEventListener("click", toggleEraser);
 }
-
-
