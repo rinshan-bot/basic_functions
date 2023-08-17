@@ -4,8 +4,9 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
     var isDrawing = false;
     var signature = document.getElementsByName(signature_id)[0];
     let isErasing = false;
-    
+
     function startDrawing(e) {
+        if (e.button === 2) return; // Skip drawing if right mouse button is clicked
         isDrawing = true;
         const pos = getMousePos(canvas, e);
         context.beginPath();
@@ -25,7 +26,11 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
 
     function stopDrawing() {
         isDrawing = false;
-        signature.value = canvas.toDataURL();
+        if (context.getImageData(0, 0, canvas.width, canvas.height).data.some(pixel => pixel !== 0)) {
+            signature.value = canvas.toDataURL();
+        } else {
+            signature.value = '';
+        }
     }
 
     function clearCanvas() {
@@ -59,13 +64,10 @@ function signature(canvas_id, signature_id, clearButton_id, eraser_id) {
     });
     canvas.addEventListener("touchend", stopDrawing);
 
+    // canvas.addEventListener("contextmenu", (e) => {
+    //     e.preventDefault();
+    // }); // Prevent right-click context menu
 
-    canvas.addEventListener("mousedown", startDrawing);
-    canvas.addEventListener("mousemove", draw);
-    canvas.addEventListener("mouseup", stopDrawing);
-    canvas.addEventListener("touchstart", startDrawing);
-    canvas.addEventListener("touchmove", draw);
-    canvas.addEventListener("touchend", stopDrawing);
     document.getElementById(clearButton_id).addEventListener("click", clearCanvas);
 
     const eraserButton = document.getElementById(eraser_id);
